@@ -4,6 +4,7 @@ class Robot:
         self._battery = battery
         self._waste_tank = waste_tank
         self._status = status
+        self._room = room
 
     def get_name(self):
         return self._name
@@ -32,6 +33,9 @@ class Robot:
     def perform_task(self):
         return f"Robot is currently {self._status}"
 
+    def display(self):
+         return f"{self._name}: {self._status} in {self._room}. Battery: {str(self._battery)}, Waste Tank: {str(self._waste_tank)}"
+
 
 """
 Planned ideas:
@@ -52,4 +56,24 @@ battery degrades over time, reducing charge. can be filled by setting status/tas
 
 waste tank fills up over time, setting status/task to dumping empties it
 """
-vac1 = Robot("vac1", 72, 19, "Cleaning")
+
+def main():
+
+    vac1 = Robot("vac1", 72, 19, "Cleaning", "bathroom")
+    fleet = [vac1]
+    
+    print("Main Menu:")
+    print("1. View Fleet")
+    print("2. Set Task")
+    print("3. Add Robot")
+    print("4. Edit Robot")
+    print("5. Check Sensors")
+    main_menu_choice = input("Choose a menu option (1-5): ")
+
+    if main_menu_choice == "1":
+        for robot in fleet:
+            
+            print(robot.display())
+
+
+main()
