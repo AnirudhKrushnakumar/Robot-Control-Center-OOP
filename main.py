@@ -1,106 +1,33 @@
 class Robot:
-    def __init__(self, model, dof, purpose, inventor):
-        self._model = model
-        self.set_dof(dof)
-        self._purpose = purpose
-        self._inventor = inventor
-    
-    def get_model(self):
-        return self._model
-    
-    def get_dof(self):
-        return self._dof
+    def __init__(self, name, battery, waste_tank, status):
+        self._name = name
+        self._battery = battery
+        self._waste_tank = waste_tank
+        self._status = status
 
-    def get_purpose(self):
-        return self._purpose
+    def get_name(self):
+        return self._name
 
-    def get_inventor(self):
-        return self._inventor
+    def get_battery(self):
+        return self._battery
 
-    def set_dof(self, freedoms):
-        if freedoms <= 0:
-            raise ValueError("Degrees of Freedom can't be 0 or negative.")
+    def set_battery(self, value):
+        if value < 0 or value > 100:
+            raise ValueError("Battery cannot be negative or higher than 100.")
         else:
-            self._dof = freedoms
+            self._battery = value
 
-def ask_for_dof():
-    while True:
-            try:
-                dof = int(input("Degrees of Freedom: "))
-                if dof <= 0:
-                    print("Degrees of Freedom can't be less than or equal to 0.")
-                else:
-                    return dof
-            except ValueError:
-                print("Please enter a whole number.")
-
-def document_robot(catalog):
-    name = input("Robot name: ")
-    model = input("Technical Model name: ")
-    dof = ask_for_dof()
-    purpose = input("Purpose: ")
-    inventor = input("Inventor: ")
+    def get_waste_tank(self):
+            return self._waste_tank
     
-    robot = Robot(model, dof, purpose, inventor)
-    catalog[name] = robot
-    print(catalog)
+    def set_waste_tank(self, value):
+            if value < 0 or value > 100:
+                raise ValueError("Waste tank cannot be negative or higher than 100.")
+            else:
+                self._waste_tank = value
 
-def ask_for_search_query():
-    while True:
-        query = input("\nSearch using one of these formats:\n"
-            "  <number> dof      (e.g. 28 dof)\n"
-            "  name <text>       (e.g. name atlas)\n"
-            "  model <text>      (e.g. model ur5)\n"
-            "  purpose <text>    (e.g. purpose welding)\n"
-            "  inventor <text>   (e.g. inventor mit)\n"
-            "Search: ").strip().lower()
+    def get_status(self):
+        return self._status
 
-        words = query.split()
-
-        if len(words) == 2 and words[1] == "dof" and words[0].isdigit():
-            return "dof", int(words[0])
-        elif len(words) >= 2 and words[0] in ("name", "model", "purpose", "inventor"):
-            return words[0], " ".join(words[1:])
-        else:
-            print("Please enter a valid search in one of the formats shown.")
-
-def find_matches(catalog, field, value):
-    results = []
-    for name, robots in catalog.items():
-        if field == "dof":
-            if robot.get_dof() == value:
-                results.append((name, robot))
-        elif field == "name":
-            if value in name.lower():
-                results.append((name, robot))
-        elif field == "model":
-            if value in robot.get_model().lower():
-                results.append((name, robot))
-        elif field == "purpose":
-            if value in robot.get_purpose().lower():
-                results.append((name, robot))
-        elif field == "inventor":
-            if value in robot.get_inventor().lower():
-                results.append((name, robot))
-    return results
-
-def search_robots(catalog):
-    pass
-
-def main():
-    catalog = {
-
-    }
-
-    while True:
-        choice = input("Would you like to Document or search a robot? Choose 'done' if you'd like to exit. (d/s/done): ")
-        if choice == "d":
-            document_robot(catalog)
-        elif choice == "s":
-            search_robots(catalog)
-        elif choice == "done":
-            break
-        else:
-            print("Please choose a valid option.")
-
-main()
+    def perform_task(self):
+        return f"Robot is currently {self._status}"
