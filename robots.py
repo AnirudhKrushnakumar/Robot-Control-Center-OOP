@@ -1,4 +1,4 @@
-valid_stasuses = ("vacumming", "charging", "dumping")
+valid_stasuses = ("vacuuming", "charging", "dumping")
 valid_rooms = ("living room", "kitchen", "play room", "bathroom")
 
 class Sensor:
@@ -7,7 +7,7 @@ class Sensor:
         self._detects = detects
 
     def __str__(self):
-        return f"{self._sensor_type} (detects {self.detects})"
+        return f"{self._sensor_type} (detects {self._detects})"
 
 class Robot:
     def __init__(self, name, battery, waste_tank, status, room):
@@ -79,7 +79,7 @@ class Robot:
             self._waste_tank = 0
 
     def perform_task(self):
-        f"{self._name} is currently {self.get_activity()} in the {self._room}."
+        return f"{self._name} is currently {self.get_activity()} in the {self._room}."
 
     def display(self):
         return (f"{self._name}: {self.get_activity()} in {self._room}. "

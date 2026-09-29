@@ -1,79 +1,45 @@
-class Robot:
-    def __init__(self, name, battery, waste_tank, status, room):
-        self._name = name
-        self._battery = battery
-        self._waste_tank = waste_tank
-        self._status = status
-        self._room = room
+from features import (add_robot, check_sensors, edit_robot, pass_time, set_task, view_fleet)
+from robots import MopRobot, PickUpRobot, Robot
 
-    def get_name(self):
-        return self._name
+menu = """
+Robot Vacuum Fleet:
+1. View fleet   4. Edit robot
+2. Set task     5. Check sensors
+3. Add robot    6. Pass time
+0. Exit
+_________________________________"""
 
-    def get_battery(self):
-        return self._battery
-
-    def set_battery(self, value):
-        if value < 0 or value > 100:
-            raise ValueError("Battery cannot be negative or higher than 100.")
-        else:
-            self._battery = value
-
-    def get_waste_tank(self):
-            return self._waste_tank
-    
-    def set_waste_tank(self, value):
-            if value < 0 or value > 100:
-                raise ValueError("Waste tank cannot be negative or higher than 100.")
-            else:
-                self._waste_tank = value
-
-    def get_status(self):
-        return self._status
-
-    def perform_task(self):
-        return f"Robot is currently {self._status}"
-
-    def display(self):
-         return f"{self._name}: {self._status} in {self._room}. Battery: {str(self._battery)}, Waste Tank: {str(self._waste_tank)}"
-
-
-"""
-Planned ideas:
-main menu options = view fleet, set task, add robot, edit robot, check sensors
-view fleet gives an overview of the fleet (battery, names, status, waste tank, room)
-set task lets you set the status and what room of a specified robot
-add robot lets you add a new robot instance
-edit robot lets you modify and existing robot instance
-check sensors gives an overview of each robot's sensors
-
-statuses include vacuming, charging, dumping
-sub types include mop robot and pick up robot
-mop robot overrides vacuming to mopping, and pick up overrides vacuming to picking
-
-rooms include living room, kitchen, play room, bathroom
-
-battery degrades over time, reducing charge. can be filled by setting status/task to charging
-
-waste tank fills up over time, setting status/task to dumping empties it
-"""
+def build_starting_fleet():
+    robots = [
+        Robot("vac1", 72, 19, "vacuuming", "living room"),
+        MopRobot("mop1", 83, 2, "charging", "kitchen"),
+        PickUpRobot("pickup1", 37, 99, "vacuuming", "play room"),
+    ]
+    return {robot.get_name().lower(): robot for robot in robots}
 
 def main():
+    fleet = build_starting_fleet()
+    actions = {"1": view_fleet, "2": set_task, "3": add_robot, "4": edit_robot, "5": check_sensors, "6": pass_time}
 
-    vac1 = Robot("vac1", 72, 19, "Cleaning", "bathroom")
-    fleet = [vac1]
-    
-    print("Main Menu:")
-    print("1. View Fleet")
-    print("2. Set Task")
-    print("3. Add Robot")
-    print("4. Edit Robot")
-    print("5. Check Sensors")
-    main_menu_choice = input("Choose a menu option (1-5): ")
+    while True:
+        print(menu)
+        try:
+            choice = input("Choose a menu option: ").strip()
+            if choice == "0":
+                break
+            if choice not in actions:
+                raise ValueError(f"'{choice}' isn't a menu option. Choose 0-6.")
+            actions[choice](fleet)
+        except ValueError as error:
+            print(f"Error: {error}")
+        except KeyError as error:
+            print(f"Error: no robot named {error}")
+        except (KeyboardInterrupt, EOFError):
+            print()
+            break
 
-    if main_menu_choice == "1":
-        for robot in fleet:
-            
-            print(robot.display())
+    print("Shutting Down.")
 
 
-main()
+if __name__ == "__main__":
+    main()
