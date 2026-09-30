@@ -1,4 +1,5 @@
 # Robot Control Center OOP
+<img width="2002" height="3332" alt="getters setters and methods robot cc oop" src="https://github.com/user-attachments/assets/f7e1ff44-00ef-4b74-b748-992a6b928e09" />
 ## An Object-Oriented Python project based around a theoretical Robot Control Center.
 
 This project is a terminal based theoretical control center for a fleet of robot vacuums, featuring two subclass types.
