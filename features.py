@@ -1,6 +1,7 @@
 from robots import MopRobot, PickUpRobot, Robot, valid_rooms, valid_stasuses
 
 def ask_number(prompt, low = 0, high = 100):
+    """Prints a question for an input number range, and accounts for bounds"""
     while True:
         try:
             value = int(input(prompt))
@@ -11,6 +12,7 @@ def ask_number(prompt, low = 0, high = 100):
             print("Please enter a whole number.")
 
 def choose(title, options):
+    """Sets up and prints a user input UI for a list of options"""
     print(f"{title}:")
     for number, option in enumerate(options, start = 1):
         print(f"{number}. {option}")
@@ -21,21 +23,25 @@ def choose(title, options):
         print("Please choose a number form the list.")
 
 def view_fleet(fleet):
+    """Prints fleet overview"""
     print("Fleet:")
     for robot in fleet.values():
         print(f"{robot.display()}")
 
 def pick_robot(fleet):
+    """Returns a user input to select a robot for inspection/modification"""
     view_fleet(fleet)
     return fleet[input("Robot name: ").strip().lower()]
 
 def set_task(fleet):
+    """Prints an updated f-string overview for a modified robot's status and room"""
     robot = pick_robot(fleet)
     robot.set_status(choose("Task", valid_stasuses))
     robot.set_room(choose("Room", valid_rooms))
     print(f"{robot.perform_task()}")
 
 def add_robot(fleet):
+    """Sets up and prints user inputs + overview for a robot being added to the fleet by the user"""
     name = input("Robot name: ").strip()
     if not name:
         raise ValueError("Name can't be empty.")
@@ -54,6 +60,7 @@ def add_robot(fleet):
     print(f"Added: {robot}")
 
 def edit_robot(fleet):
+    """Sets up and prints user inputs for editing attributes of a robot instance"""
     robot = pick_robot(fleet)
     while True:
         print(f"{robot.display()}")
@@ -71,12 +78,14 @@ def edit_robot(fleet):
             print("Please choose 1-4.")
 
 def check_sensors(fleet):
+    """Prints an f-string overview for a robot's sensors"""
     for robot in fleet.values():
         print(f"{robot.get_name()}:")
         for sensor in robot.get_sensors():
             print(f"- {sensor}")
 
 def pass_time(fleet):
+    """Sets up and prints user input for time passing"""
     steps = ask_number("How many time steps (1-20): ", 1, 20)
     for _ in range(steps):
         for robot in fleet.values():

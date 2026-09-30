@@ -10,6 +10,7 @@ Robot Vacuum Fleet:
 _________________________________"""
 
 def build_starting_fleet():
+    """Returns and sets up initial 3 robot fleet"""
     robots = [
         Robot("vac1", 72, 19, "vacuuming", "living room"),
         MopRobot("mop1", 83, 2, "charging", "kitchen"),
@@ -18,6 +19,7 @@ def build_starting_fleet():
     return {robot.get_name().lower(): robot for robot in robots}
 
 def main():
+    """Runs main logic for robot fleet interface"""
     fleet = build_starting_fleet()
     actions = {"1": view_fleet, "2": set_task, "3": add_robot, "4": edit_robot, "5": check_sensors, "6": pass_time}
 
